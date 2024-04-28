@@ -5,7 +5,8 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-card>
+  <ion-card style="height: -webkit-fill-available">
+    <img src="../../assets/logo-utn.png">
     <ion-card-content>
       <form #loginForm="ngForm">
         <ion-item>
@@ -29,18 +30,18 @@
       <ng-container expand="block" class="ion-text-center">
         <ion-row class="ion-justify-content-center">
           <ion-col size="auto">
-            <ion-button color="danger" (click)="quickFill('marcoslaporte2015@gmail.com', 'UTNFRA')">
+            <ion-button color="danger" (click)="quickFill('admin@admin.com', '111111')">
               <ion-icon name="home-outline"></ion-icon>
             </ion-button>
           </ion-col>
           <ion-col size="auto">
-            <ion-button color="danger" (click)="quickFill('test1@gmail.com', 'UTNFRA')">
-              <ion-icon name="woman-outline"></ion-icon>
+            <ion-button color="danger" (click)="quickFill('invitado@invitado.com', '222222')">
+              <ion-icon name="man-outline"></ion-icon>
             </ion-button>
           </ion-col>
           <ion-col size="auto">
-            <ion-button color="danger" (click)="quickFill('test2@gmail.com', 'UTNFRA')">
-              <ion-icon name="man-outline"></ion-icon>
+            <ion-button color="danger" (click)="quickFill('tester@tester.com', '555555')">
+              <ion-icon name="woman-outline"></ion-icon>
             </ion-button>
           </ion-col>
         </ion-row>
@@ -50,6 +51,6 @@
         <ion-text color="medium">No está registrado? <a routerLink="/signup">Crear cuenta</a></ion-text>
       </div>
     </ion-card-content>
+    <img src="../../assets/logo-utn.png">
   </ion-card>
-  <img src="../../assets/logo-utn.png">
 </ion-content>

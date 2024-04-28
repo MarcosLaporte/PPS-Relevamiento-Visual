@@ -22,9 +22,8 @@ export class LoginPage {
     private spinner: SpinnerService
   ) { }
 
-  loading: boolean = false;
   async login() {
-    this.loading = true;
+    this.spinner.show = true;
     try {
       await this.auth.signInToFirebase(this.email, this.password)
 
@@ -33,10 +32,10 @@ export class LoginPage {
       ToastSuccess.fire('Operación realizada con éxito.')
       this.navCtrl.navigateBack('/home')
     } catch (error: any) {
-      this.loading = false;
+      this.spinner.show = false;
       ToastError.fire('Ups! Algo salió mal.', error.message);
 
-    } finally { this.loading = false; }
+    } finally { this.spinner.show = false; }
   }
 
   quickFill(email: string, pass: string) {
