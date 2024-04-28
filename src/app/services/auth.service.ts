@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from '@angular/fire/auth';
 import { BehaviorSubject } from 'rxjs';
 import { DatabaseService } from './database.service';
-import { User } from '../interfaces';
+import { User, UserGender, UserType } from '../interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -30,15 +30,17 @@ public set UserInSession(value: User | null) {
 
 constructor(private auth: Auth, private db: DatabaseService) { }
 
-async createAccount(email: string, password: string): Promise<string> {
+async createAccount(name: string, lastName: string, email: string, type: UserType, gender: UserGender, password: string): Promise<string> {
   try {
     await createUserWithEmailAndPassword(this.auth, email, password);
 
-    const userId = await this.db.addData('users', { email: email }, true);
-    const newUser: User = { id: userId, email: email };
+    const userId: number = (await this.db.getData<User>('users')).length +1;
+    const newUser: User = { id: '', userId: userId, name: name, lastname: lastName, email: email, type: type, gender: gender };
+    const docId = await this.db.addData('users', newUser, true);
+
     this.UserInSession = newUser;
 
-    return userId;
+    return docId;
   } catch (error: any) {
     throw new Error(this.parseError(error));
   }

@@ -1,3 +1,6 @@
 <ion-app>
   <ion-router-outlet></ion-router-outlet>
+  <div class="loading-overlay" *ngIf="spinner.show">
+    <ion-spinner [name]="spinner.style" [color]="spinner.color" [duration]="spinner.duration"></ion-spinner>
+  </div>
 </ion-app>
