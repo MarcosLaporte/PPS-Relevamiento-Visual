@@ -13,6 +13,7 @@
             <img [src]="pic.url" />
           </div>
           <ion-card-title color="tertiary">{{pic.author}}</ion-card-title>
+          <ion-card-subtitle color="medium">{{pic.date | date:'dd/MM/yy - HH:mm'}}</ion-card-subtitle>
         </ion-card-header>
       </ion-card>
     </ion-list>
