@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { inSessionGuard } from './guards/in-session.guard';
 
 const routes: Routes = [
   {
@@ -21,7 +22,8 @@ const routes: Routes = [
   },
   {
     path: 'pics',
-    loadChildren: () => import('./pics/pics.module').then( m => m.PicsPageModule)
+    loadChildren: () => import('./pics/pics.module').then( m => m.PicsPageModule),
+    canActivate: [inSessionGuard]
   },
 ];
 
