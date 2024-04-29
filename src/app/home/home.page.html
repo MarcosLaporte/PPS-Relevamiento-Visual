@@ -1,20 +1,47 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-title>Relevamiento visual</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ng-container *ngIf="userInSession; else noUser">
+    <ion-fab slot="fixed" vertical="top" horizontal="end">
+      <ion-fab-button shape="round" (click)="signOut()">
+        <ion-icon name="log-out-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+    <div class="options">
+      <ion-button fill="outline" (click)="navCtrl.navigateForward('/pics/nice')">
+        <div class="button-content">
+          <img src="../../assets/star-struck.png" alt="Star Struck">
+          <span>COSAS LINDAS</span>
+        </div>
+      </ion-button>
+      <ion-button fill="outline" (click)="navCtrl.navigateForward('/pics/ugly')">
+        <div class="button-content">
+          <img src="../../assets/nauseated-face.png" alt="Nauseated Face">
+          <span>COSAS FEAS</span>
+        </div>
+      </ion-button>
+    </div>
+  </ng-container>
+  <ng-template #noUser>
+    <ion-grid style="height: -webkit-fill-available">
+      <ion-row style="height: 30%;">
+        <img src="../../assets/shapes.svg" width="100%">
+      </ion-row>
+      <ion-row style="height: 40%;">
+        <ion-card style="align-content: center;" class="ion-padding">
+          <ion-card-title>Inicie sesión!</ion-card-title>
+          <ion-card-content>Para acceder a los contenidos, ingrese con su cuenta.</ion-card-content>
+          <ion-button expand="block" (click)="navCtrl.navigateForward('/login')">Ingrese a su cuenta</ion-button>
+        </ion-card>
+      </ion-row>
+      <ion-row style="height: 30%;">
+        <img src="../../assets/shapes.svg" width="100%" style="rotate: 180deg;">
+      </ion-row>
+    </ion-grid>
+  </ng-template>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
 </ion-content>

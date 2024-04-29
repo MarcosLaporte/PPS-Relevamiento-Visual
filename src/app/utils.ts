@@ -1,6 +1,10 @@
 import Swal from "sweetalert2";
 
 //#region Sweet Alert
+export const MySwal = Swal.mixin({
+  heightAuto: false
+});
+
 export const ToastSuccess = Swal.mixin({
 	icon: 'success',
 	background: '#a5dc86',

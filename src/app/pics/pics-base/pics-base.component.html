@@ -1,0 +1,23 @@
+<input type="file" accept="image/*" id="file-upload" style="display: none" (change)="setImage($event)">
+<ion-button expand="block" size="large" class="ion-margin" (click)="takePic()">
+  <ion-icon slot="icon-only" name="camera"></ion-icon>
+</ion-button>
+
+<ion-card style="height: 85%">
+  <ion-card-content class="pictures">
+    <ion-list *ngIf="this.pictures.length > 0; else noPics" class="ion-no-padding picList" infiniteScroll
+      [infiniteScrollDistance]="2" [infiniteScrollThrottle]="300" [scrollWindow]="false">
+      <ion-card class="item-card ion-no-margin ion-margin-bottom ion-no-padding" *ngFor="let pic of pictures">
+        <ion-card-header class="ion-text-center">
+          <div class="img-container">
+            <img [src]="pic.url" />
+          </div>
+          <ion-card-title color="tertiary">{{pic.author}}</ion-card-title>
+        </ion-card-header>
+      </ion-card>
+    </ion-list>
+    <ng-template #noPics>
+      <ion-text>No hay más imágenes para mostrar.</ion-text>
+    </ng-template>
+  </ion-card-content>
+</ion-card>

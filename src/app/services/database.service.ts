@@ -57,7 +57,13 @@ export class DatabaseService {
     return updateDoc(docRef, { ...data });
   }
 
-  listenColChanges<T extends { id: string }>(colPath: string, arrayPointer: Array<T>, filterFunc?: (item: T) => boolean, sortFunc?: (a: any, b: any) => number, transform?: (item: T) => Promise<T>) {
+  listenColChanges<T extends { id: string }>(
+    colPath: string,
+    arrayPointer: Array<T>,
+    filterFunc?: (item: T) => boolean,
+    sortFunc?: (a: any, b: any) => number,
+    transform?: (item: T) => Promise<T>
+  ) {
     const col = collection(this.firestore, colPath);
     const q = query(col);
 
@@ -89,4 +95,5 @@ export class DatabaseService {
     if (index === -1) throw new Error('Esta dirección de correo no está registrada.');
 
     return arrayUsers[index];
-  }}
+  }
+}
