@@ -7,6 +7,8 @@ import { DatabaseService } from 'src/app/services/database.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { MySwal } from 'src/app/utils';
+import { ChosenPicComponent } from '../chosen-pic/chosen-pic.component';
+import { ModalController } from '@ionic/angular';
 
 const datePipe = new DatePipe('en-US', '-0300');
 @Component({
@@ -23,7 +25,8 @@ export class PicsBaseComponent implements OnInit {
     private db: DatabaseService,
     private storage: StorageService,
     private auth: AuthService,
-    private spinner: SpinnerService
+    private spinner: SpinnerService,
+    private modalCtrl: ModalController
   ) { }
 
   async ngOnInit() {
@@ -37,7 +40,6 @@ export class PicsBaseComponent implements OnInit {
 
     this.spinner.show = true;
     setTimeout(() => {
-      console.log(this.pictures);
       this.spinner.show = false;
     }, 3000);
   }
@@ -83,13 +85,21 @@ export class PicsBaseComponent implements OnInit {
       id: '',
       name: picName,
       author: `${this.auth.UserInSession!.name} ${this.auth.UserInSession!.lastname}`,
-      posVotes: [],
-      negVotes: [],
+      votes: [],
       date: datetime,
       url: url
     };
     await this.db.addData(this.storageName, buildingPic, true);
 
     this.spinner.show = false;
+  }
+
+  async openPicModal(picture: BuildingPicture) {
+    const modal = await this.modalCtrl.create({
+      component: ChosenPicComponent,
+      componentProps: { ['picture']: picture, ['dbColPath']: this.storageName },
+      cssClass: 'img-modal'
+    });
+    modal.present();
   }
 }
