@@ -7,19 +7,23 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <img [src]="picture.url">
-  <p>Fotografía de {{picture.author}}</p>
-  <p>Subida el {{picture.date | date:'dd/MM/yy'}} a las {{picture.date | date:'HH:mm'}}hs</p>
+<ion-content>
+  <ion-card class="container ion-padding">
+    <div class="img-container">
+      <img [src]="picture.url">
+    </div>
+    <p>Fotografía de {{picture.author}}</p>
+    <p>Subida el {{picture.date | date:'dd/MM/yy'}} a las {{picture.date | date:'HH:mm'}}hs</p>
 
-  <ion-button *ngIf="!userVoted; else voted" expand="block" color="success" size="large" (click)="vote(true)">
-    <ion-icon slot="start" name="thumbs-up-outline"></ion-icon>
-    VOTAR
-  </ion-button>
-  <ng-template #voted>
-    <ion-button expand="block" color="danger" size="large" (click)="vote(false)">
-      <ion-icon slot="start" name="thumbs-down-outline"></ion-icon>
-      QUITAR VOTO
+    <ion-button *ngIf="!userVoted; else voted" expand="block" color="success" size="large" (click)="vote(true)">
+      <ion-icon slot="start" name="thumbs-up-outline"></ion-icon>
+      VOTAR
     </ion-button>
-  </ng-template>
+    <ng-template #voted>
+      <ion-button expand="block" color="danger" size="large" (click)="vote(false)">
+        <ion-icon slot="start" name="thumbs-down-outline"></ion-icon>
+        QUITAR VOTO
+      </ion-button>
+    </ng-template>
+  </ion-card>
 </ion-content>
