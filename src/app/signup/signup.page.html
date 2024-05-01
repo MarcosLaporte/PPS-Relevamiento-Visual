@@ -6,7 +6,7 @@
 
 <ion-content [fullscreen]="true">
   <ion-card>
-    <img src="../../assets/logo-utn.png">
+    <img src="../../assets/logo-utn.png" class="ion-padding">
     <ion-card-content>
       <form #signupForm="ngForm">
         <ion-grid>
@@ -82,9 +82,10 @@
       </form>
 
       <div class="ion-margin-top">
-        <ion-text color="medium">Ya tiene una cuenta? <a routerLink="/login">Ingresar</a></ion-text>
+        <ion-text color="medium">Ya tiene una cuenta? <a href="/login">Ingresar</a></ion-text>
       </div>
 
     </ion-card-content>
+    <img src="../../assets/logo-utn.png" class="ion-padding">
   </ion-card>
 </ion-content>
