@@ -7,7 +7,7 @@ import { DatabaseService } from 'src/app/services/database.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { MySwal, ToastError, ToastSuccess } from 'src/app/utils';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { ChartComponent } from '../chart/chart.component';
 import { ChartType } from 'chart.js';
 
@@ -29,7 +29,8 @@ export class PicsBaseComponent implements OnInit {
     private storage: StorageService,
     private auth: AuthService,
     private spinner: SpinnerService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    public navCtrl: NavController
   ) { }
 
   async ngOnInit() {

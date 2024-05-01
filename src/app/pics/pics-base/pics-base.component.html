@@ -17,3 +17,9 @@
     </ng-template>
   </ion-card-content>
 </ion-card>
+
+<ion-fab slot="fixed" vertical="bottom" horizontal="start">
+  <ion-fab-button shape="round" (click)="navCtrl.navigateRoot('/home')">
+    <ion-icon name="home-outline"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
