@@ -1,0 +1,13 @@
+<ion-list class="ion-no-padding picList" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="300"
+  [scrollWindow]="false">
+  <ion-card class="item-card ion-no-margin ion-margin-bottom ion-no-padding" *ngFor="let pic of pictures"
+    (click)="openPicModal(pic)">
+    <ion-card-header class="ion-text-center">
+      <div class="img-container">
+        <img [src]="pic.url" />
+      </div>
+      <ion-card-title color="tertiary">{{pic.author}}</ion-card-title>
+      <ion-card-subtitle color="medium">{{pic.date | date:'dd/MM/yy - HH:mm'}}</ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+</ion-list>

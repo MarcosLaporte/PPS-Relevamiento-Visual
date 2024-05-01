@@ -14,6 +14,7 @@ export type UserGender = 'femenino' | 'masculino';
 export interface BuildingPicture {
   id: string,
   name: string,
+  authorDocId: string,
   author: string,
   votes: string[], //id of each user
   date: Date,

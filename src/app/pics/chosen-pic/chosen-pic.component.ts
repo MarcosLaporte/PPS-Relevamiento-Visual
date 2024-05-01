@@ -4,7 +4,7 @@ import { ModalController } from '@ionic/angular';
 import { DatabaseService } from 'src/app/services/database.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
-import { ToastError } from 'src/app/utils';
+import { ToastError, ToastSuccess } from 'src/app/utils';
 
 @Component({
   selector: 'app-chosen-pic',
@@ -42,6 +42,7 @@ export class ChosenPicComponent implements OnInit {
       await this.db.updateDoc(this.dbColPath, this.picture.id, { votes: this.picture.votes });
       this.userVoted = !this.userVoted;
       this.spinner.show = false;
+      ToastSuccess.fire('Su voto ha sido actualizado!');
       this.close();
     } catch (error: any) {
       this.spinner.show = false;

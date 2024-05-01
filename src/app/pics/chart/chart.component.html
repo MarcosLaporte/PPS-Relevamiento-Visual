@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Estadísticas</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()" [strong]="true">CERRAR</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<div class="container">
+  <ion-card style="overflow: visible; max-height: fit-content;">
+    <canvas *ngIf="pictures.length > 0; else noVotes" baseChart [id]="chartId" [style.width]="width"
+      [style.height]="height" [type]="chartType" [data]="chartData" [options]="chartOptions" [legend]="showLegends">
+    </canvas>
+    <ng-template #noVotes>
+      <ion-text>No hay imágenes con votos.</ion-text>
+    </ng-template>
+  </ion-card>
+
+  <ion-card *ngIf="pictures.length > 0" style="height: 100%;">
+    <ion-card-header>
+      <ion-card-title>Imágenes por cantidad de votos:</ion-card-title>
+    </ion-card-header>
+    <ion-card-content style="height: calc(100% - 56px); overflow: scroll;">
+      <app-pic-list [storageName]="chartId" [pictures]="pictures" [sortFunc]="sortVotes"
+        [allowPictureModal]="false"></app-pic-list>
+    </ion-card-content>
+  </ion-card>
+</div>

@@ -1,23 +1,17 @@
-<input type="file" accept="image/*" id="file-upload" style="display: none" (change)="setImage($event)">
-<ion-button expand="block" size="large" class="ion-margin" (click)="takePic()">
-  <ion-icon slot="icon-only" name="camera"></ion-icon>
-</ion-button>
+<div class="btns">
+  <input type="file" accept="image/*" [multiple]="true" id="file-upload" style="display: none" (change)="setImage($event)">
+  <ion-button size="large" class="ion-margin" (click)="takePic()">
+    <ion-icon slot="icon-only" name="camera"></ion-icon>
+  </ion-button>
+  <ion-button size="large" class="ion-margin" (click)="openChartModal()">
+    <ion-icon slot="icon-only" name="stats-chart"></ion-icon>
+  </ion-button>
+</div>
 
 <ion-card style="height: 85%">
-  <ion-card-content class="pictures">
-    <ion-list *ngIf="this.pictures.length > 0; else noPics" class="ion-no-padding picList" infiniteScroll
-      [infiniteScrollDistance]="2" [infiniteScrollThrottle]="300" [scrollWindow]="false">
-      <ion-card class="item-card ion-no-margin ion-margin-bottom ion-no-padding" *ngFor="let pic of pictures"
-        (click)="openPicModal(pic)">
-        <ion-card-header class="ion-text-center">
-          <div class="img-container">
-            <img [src]="pic.url" />
-          </div>
-          <ion-card-title color="tertiary">{{pic.author}}</ion-card-title>
-          <ion-card-subtitle color="medium">{{pic.date | date:'dd/MM/yy - HH:mm'}}</ion-card-subtitle>
-        </ion-card-header>
-      </ion-card>
-    </ion-list>
+  <ion-card-content style="height: 100%">
+    <app-pic-list *ngIf="this.pictures.length > 0; else noPics"
+      [storageName]="storageName" [pictures]="pictures" [sortFunc]="sortDateDesc"></app-pic-list>
     <ng-template #noPics>
       <ion-text>No hay más imágenes para mostrar.</ion-text>
     </ng-template>

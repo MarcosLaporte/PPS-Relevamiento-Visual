@@ -6,9 +6,10 @@ import { AuthService } from 'src/app/services/auth.service';
 import { DatabaseService } from 'src/app/services/database.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
 import { StorageService } from 'src/app/services/storage.service';
-import { MySwal } from 'src/app/utils';
-import { ChosenPicComponent } from '../chosen-pic/chosen-pic.component';
+import { MySwal, ToastError, ToastSuccess } from 'src/app/utils';
 import { ModalController } from '@ionic/angular';
+import { ChartComponent } from '../chart/chart.component';
+import { ChartType } from 'chart.js';
 
 const datePipe = new DatePipe('en-US', '-0300');
 @Component({
@@ -19,6 +20,8 @@ const datePipe = new DatePipe('en-US', '-0300');
 export class PicsBaseComponent implements OnInit {
   @Input({ required: true }) storageName!: string;
   @Input({ required: true }) newPicPrefix!: string;
+  @Input({ required: true }) chartType!: ChartType;
+  @Input() showChartLegends: boolean = true;
   pictures: BuildingPicture[] = [];
 
   constructor(
@@ -34,7 +37,7 @@ export class PicsBaseComponent implements OnInit {
       this.storageName,
       this.pictures,
       undefined,
-      (pic1: BuildingPicture, pic2: BuildingPicture) => pic1.date > pic2.date ? -1 : 1,
+      this.sortDateDesc,
       this.timestampParse
     );
 
@@ -43,6 +46,7 @@ export class PicsBaseComponent implements OnInit {
       this.spinner.show = false;
     }, 3000);
   }
+  readonly sortDateDesc = (pic1: BuildingPicture, pic2: BuildingPicture) => pic1.date > pic2.date ? -1 : 1
 
   /* private readonly filterBuildingPictures = (pic: BuildingPicture) => {
     const picDate = new Date(pic.date);
@@ -62,15 +66,18 @@ export class PicsBaseComponent implements OnInit {
     (document as any).getElementById("file-upload").click();
   }
 
-  setImage(ev: any) {
-    let auxFile: File = ev.target.files[0];
+  async setImage(ev: any) {
+    const auxFiles: File[] = [...ev.target.files];
+    if (auxFiles.length < 1) return;
 
-    if (!auxFile || !auxFile.type.startsWith('image')) {
-      MySwal.fire('Algo salió mal.', 'Debe elegir un archivo de tipo imagen.', 'error');
-      return;
-    }
+    for (const file of auxFiles) {
+      if (!file.type.startsWith('image')) {
+        await MySwal.fire('Algo salió mal.', `El archivo ${file.name} no es de tipo imagen.`, 'error');
+        return;
+      }
 
-    this.uploadPicture(auxFile);
+      await this.uploadPicture(file);
+    };
   }
 
   async uploadPicture(image: File) {
@@ -80,25 +87,56 @@ export class PicsBaseComponent implements OnInit {
     const dateStr: string = datePipe.transform(datetime, 'yyyyMMdd-HHmmss')!;
     const picName: string = `${this.auth.UserInSession!.name}-${this.auth.UserInSession!.lastname}-${dateStr}`;
 
-    const url = await this.storage.uploadImage(image, `${this.storageName}/${this.newPicPrefix}-${picName}`);
-    const buildingPic: BuildingPicture = {
-      id: '',
-      name: picName,
-      author: `${this.auth.UserInSession!.name} ${this.auth.UserInSession!.lastname}`,
-      votes: [],
-      date: datetime,
-      url: url
-    };
-    await this.db.addData(this.storageName, buildingPic, true);
-
-    this.spinner.show = false;
+    try {
+      const url = await this.storage.uploadImage(image, `${this.storageName}/${this.newPicPrefix}-${picName}`);
+      const buildingPic: BuildingPicture = {
+        id: '',
+        name: picName,
+        authorDocId: this.auth.UserInSession!.id,
+        author: `${this.auth.UserInSession!.name} ${this.auth.UserInSession!.lastname}`,
+        votes: [],
+        date: datetime,
+        url: url
+      };
+      await this.db.addData(this.storageName, buildingPic, true);
+      this.spinner.show = false;
+      ToastSuccess.fire('Imagen subida con éxito!');
+    } catch (error: any) {
+      this.spinner.show = false;
+      ToastError.fire('Hubo un problema al subir la imagen.');
+    }
   }
 
-  async openPicModal(picture: BuildingPicture) {
+  async openChartModal() {
+    const pics = this.pictures.filter((pic) => pic.votes.length > 0);
+    const chartDataLabels: string[] | string[][] = pics.map((pic) => pic.name);
+    const chartDataDatasetData: number[] = pics.map((pic) => pic.votes.length);
+
     const modal = await this.modalCtrl.create({
-      component: ChosenPicComponent,
-      componentProps: { ['picture']: picture, ['dbColPath']: this.storageName },
-      cssClass: 'img-modal'
+      component: ChartComponent,
+      componentProps: {
+        pictures: pics,
+        // width: ,
+        // height: ,
+        chartId: this.storageName,
+        chartType: this.chartType,
+        chartData: {
+          labels: chartDataLabels,
+          datasets: [{
+            data: chartDataDatasetData
+          }]
+        },
+        showLegends: this.showChartLegends,
+        chartOptions: {
+          plugins: {
+            legend: {
+              display: true,
+              position: 'bottom',
+              align: 'start',
+            }
+          }
+        },
+      },
     });
     modal.present();
   }
