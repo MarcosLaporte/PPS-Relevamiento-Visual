@@ -58,7 +58,7 @@
       </ng-container>
 
       <div class="ion-margin-top">
-        <ion-text color="medium">No está registrado? <a href="/signup">Crear cuenta</a></ion-text>
+        <ion-text color="medium">No está registrado? <a (click)="navCtrl.navigateForward('/signup')">Crear cuenta</a></ion-text>
       </div>
     </ion-card-content>
     <img src="../../assets/logo-utn.png">

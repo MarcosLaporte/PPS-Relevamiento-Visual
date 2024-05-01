@@ -4,6 +4,7 @@ import { NavController } from '@ionic/angular';
 import { ToastError, ToastSuccess } from '../utils';
 import { SignupPage } from '../signup/signup.page';
 import { SpinnerService } from '../services/spinner.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,7 @@ export class LoginPage {
 
   constructor(
     private auth: AuthService,
-    private navCtrl: NavController,
+    public navCtrl: NavController,
     private spinner: SpinnerService
   ) { }
 

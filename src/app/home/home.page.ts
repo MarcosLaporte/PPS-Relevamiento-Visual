@@ -25,6 +25,6 @@ export class HomePage implements OnInit{
   signOut() {
     this.auth.signOut();
     ToastInfo.fire('Sesión cerrada.');
-    this.navCtrl.navigateForward('/login');
+    this.navCtrl.navigateBack('/login');
   }
 }

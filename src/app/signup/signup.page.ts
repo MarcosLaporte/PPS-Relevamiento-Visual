@@ -4,6 +4,7 @@ import { NavController } from '@ionic/angular';
 import { ToastError, ToastSuccess } from '../utils';
 import { UserGender, UserType } from '../interfaces';
 import { SpinnerService } from '../services/spinner.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -21,7 +22,7 @@ export class SignupPage {
 
   constructor(
     private auth: AuthService,
-    private navCtrl: NavController,
+    public navCtrl: NavController,
     private spinner: SpinnerService
   ) { }
 

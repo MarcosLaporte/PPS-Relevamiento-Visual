@@ -12,13 +12,13 @@
       </ion-fab-button>
     </ion-fab>
     <div class="options">
-      <ion-button fill="outline" (click)="navCtrl.navigateForward('/pics/nice')">
+      <ion-button fill="outline" (click)="navCtrl.navigateBack('/pics/nice')">
         <div class="button-content">
           <img src="../../assets/star-struck.png" alt="Star Struck">
           <span>COSAS LINDAS</span>
         </div>
       </ion-button>
-      <ion-button fill="outline" (click)="navCtrl.navigateForward('/pics/ugly')">
+      <ion-button fill="outline" (click)="navCtrl.navigateBack('/pics/ugly')">
         <div class="button-content">
           <img src="../../assets/nauseated-face.png" alt="Nauseated Face">
           <span>COSAS FEAS</span>
@@ -31,11 +31,11 @@
       <ion-row style="height: 30%;">
         <img src="../../assets/shapes.svg" width="100%">
       </ion-row>
-      <ion-row style="height: 40%;">
+      <ion-row style="height: 40%;" class="ion-justify-content-center">
         <ion-card style="align-content: center;" class="ion-padding">
           <ion-card-title>Inicie sesión!</ion-card-title>
           <ion-card-content>Para acceder a los contenidos, ingrese con su cuenta.</ion-card-content>
-          <ion-button expand="block" (click)="navCtrl.navigateForward('/login')">Ingrese a su cuenta</ion-button>
+          <ion-button expand="block" (click)="navCtrl.navigateBack('/login')">Ingrese a su cuenta</ion-button>
         </ion-card>
       </ion-row>
       <ion-row style="height: 30%;">
