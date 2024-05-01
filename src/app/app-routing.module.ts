@@ -25,6 +25,10 @@ const routes: Routes = [
     loadChildren: () => import('./pics/pics.module').then( m => m.PicsPageModule),
     canActivate: [inSessionGuard]
   },
+  {
+    path: 'splash',
+    loadChildren: () => import('./splash/splash.module').then( m => m.SplashPageModule)
+  },
 ];
 
 @NgModule({

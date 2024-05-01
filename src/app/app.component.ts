@@ -16,6 +16,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.router.navigateByUrl('splash');
     window.addEventListener('storage', (e) => {
       if (e.storageArea === sessionStorage && e.key === 'userInSession') {
         this.auth.signOut();
