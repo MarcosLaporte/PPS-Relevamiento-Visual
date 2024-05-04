@@ -1,6 +1,21 @@
-ion-content ion-card {
-  height: -webkit-fill-available;
+.container {
+  height: 100%;
+  background: url('../../assets/background.png') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+
   display: flex;
   justify-content: center;
   flex-direction: column;
+
+  ion-card {
+    --background: rgb(250, 235, 215, 0.9);
+    
+    ion-item,
+    ion-input {
+      --background: rgb(205, 180, 149);
+    }
+  }
 }

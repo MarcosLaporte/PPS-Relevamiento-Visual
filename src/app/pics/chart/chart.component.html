@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<div class="container">
+<div class="container bg-img">
   <ion-card style="overflow: visible; max-height: fit-content;">
     <canvas *ngIf="pictures.length > 0; else noVotes" baseChart [id]="chartId" [style.width]="width"
       [style.height]="height" [type]="chartType" [data]="chartData" [options]="chartOptions" [legend]="showLegends">

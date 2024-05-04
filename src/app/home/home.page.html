@@ -4,7 +4,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content class="bg-img" [fullscreen]="true">
   <ng-container *ngIf="userInSession; else noUser">
     <ion-fab slot="fixed" vertical="top" horizontal="end">
       <ion-fab-button shape="round" (click)="signOut()">
