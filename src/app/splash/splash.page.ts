@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
 
 @Component({
@@ -10,9 +10,13 @@ export class SplashPage {
 
   constructor(private navCtrl: NavController) {
     setTimeout(() => {
+      const audio = new Audio('../../assets/sounds/whoosh.mp3');
+      audio.play();
+    }, 1500);
+    setTimeout(() => {
       navCtrl.navigateRoot('/home');
       history.pushState(null, '');
-    }, 2650);
+    }, 2100);
   }
 
 }

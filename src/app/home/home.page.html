@@ -27,21 +27,12 @@
     </div>
   </ng-container>
   <ng-template #noUser>
-    <ion-grid style="height: -webkit-fill-available">
-      <ion-row style="height: 30%;">
-        <img src="../../assets/shapes.svg" width="100%">
-      </ion-row>
-      <ion-row style="height: 40%;" class="ion-justify-content-center">
+      <div class="no-user ion-margin">
         <ion-card style="align-content: center;" class="ion-padding ion-no-margin">
           <ion-card-title>Inicie sesión!</ion-card-title>
           <ion-card-content>Para acceder a los contenidos, ingrese con su cuenta.</ion-card-content>
           <ion-button expand="block" (click)="navCtrl.navigateBack('/login')">Ingrese a su cuenta</ion-button>
         </ion-card>
-      </ion-row>
-      <ion-row style="height: 30%;">
-        <img src="../../assets/shapes.svg" width="100%" style="rotate: 180deg;">
-      </ion-row>
-    </ion-grid>
+      </div>
   </ng-template>
-
 </ion-content>
