@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastWarning } from './utils';
 import { AuthService } from './services/auth.service';
 import { Router } from '@angular/router';
-import { SpinnerService } from './services/spinner.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +10,7 @@ import { SpinnerService } from './services/spinner.service';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  constructor(private auth: AuthService, private router: Router, public spinner: SpinnerService) {
+  constructor(private auth: AuthService, private router: Router, public spinner: NgxSpinnerService) {
     const ssUser = sessionStorage.getItem('userInSession');
     this.auth.UserInSession = ssUser ? JSON.parse(ssUser) : null;
   }

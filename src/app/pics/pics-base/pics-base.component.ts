@@ -4,12 +4,12 @@ import { Timestamp } from '@angular/fire/firestore';
 import { BuildingPicture, User } from 'src/app/interfaces';
 import { AuthService } from 'src/app/services/auth.service';
 import { DatabaseService } from 'src/app/services/database.service';
-import { SpinnerService } from 'src/app/services/spinner.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { MySwal, ToastError, ToastSuccess } from 'src/app/utils';
 import { ModalController, NavController } from '@ionic/angular';
 import { ChartComponent } from '../chart/chart.component';
 import { ChartType } from 'chart.js';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 const datePipe = new DatePipe('en-US', '-0300');
 @Component({
@@ -28,7 +28,7 @@ export class PicsBaseComponent implements OnInit {
     private db: DatabaseService,
     private storage: StorageService,
     private auth: AuthService,
-    private spinner: SpinnerService,
+    private spinner: NgxSpinnerService,
     private modalCtrl: ModalController,
     public navCtrl: NavController
   ) { }
@@ -42,9 +42,9 @@ export class PicsBaseComponent implements OnInit {
       this.timestampParse
     );
 
-    this.spinner.show = true;
+    this.spinner.show();
     setTimeout(() => {
-      this.spinner.show = false;
+      this.spinner.hide();
     }, 3000);
   }
   readonly sortDateDesc = (pic1: BuildingPicture, pic2: BuildingPicture) => pic1.date > pic2.date ? -1 : 1
@@ -82,7 +82,7 @@ export class PicsBaseComponent implements OnInit {
   }
 
   async uploadPicture(image: File) {
-    this.spinner.show = true;
+    this.spinner.show();
 
     const datetime: Date = new Date();
     const dateStr: string = datePipe.transform(datetime, 'yyyyMMdd-HHmmss')!;
@@ -100,10 +100,10 @@ export class PicsBaseComponent implements OnInit {
         url: url
       };
       await this.db.addData(this.storageName, buildingPic, true);
-      this.spinner.show = false;
+      this.spinner.hide();
       ToastSuccess.fire('Imagen subida con éxito!');
     } catch (error: any) {
-      this.spinner.show = false;
+      this.spinner.hide();
       ToastError.fire('Hubo un problema al subir la imagen.');
     }
   }

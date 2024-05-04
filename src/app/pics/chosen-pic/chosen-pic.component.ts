@@ -3,8 +3,8 @@ import { BuildingPicture, User } from 'src/app/interfaces';
 import { ModalController } from '@ionic/angular';
 import { DatabaseService } from 'src/app/services/database.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { SpinnerService } from 'src/app/services/spinner.service';
 import { ToastError, ToastSuccess } from 'src/app/utils';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-chosen-pic',
@@ -17,7 +17,7 @@ export class ChosenPicComponent implements OnInit {
   user: User;
   userVoted: boolean = false;
 
-  constructor(private modalCtrl: ModalController, private db: DatabaseService, private spinner: SpinnerService) {
+  constructor(private modalCtrl: ModalController, private db: DatabaseService, private spinner: NgxSpinnerService) {
     this.user = inject(AuthService).UserInSession!;
   }
 
@@ -38,14 +38,14 @@ export class ChosenPicComponent implements OnInit {
     }
 
     try {
-      this.spinner.show = true;
+      this.spinner.show();
       await this.db.updateDoc(this.dbColPath, this.picture.id, { votes: this.picture.votes });
       this.userVoted = !this.userVoted;
-      this.spinner.show = false;
+      this.spinner.hide();
       ToastSuccess.fire('Su voto ha sido actualizado!');
       this.close();
     } catch (error: any) {
-      this.spinner.show = false;
+      this.spinner.hide();
       ToastError.fire('Ups! Algo salió mal. Intente de nuevo.', error.message);
     }
 

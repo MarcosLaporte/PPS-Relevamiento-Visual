@@ -3,8 +3,7 @@ import { AuthService } from '../services/auth.service';
 import { NavController } from '@ionic/angular';
 import { ToastError, ToastSuccess } from '../utils';
 import { UserGender, UserType } from '../interfaces';
-import { SpinnerService } from '../services/spinner.service';
-import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-signup',
@@ -23,7 +22,7 @@ export class SignupPage {
   constructor(
     private auth: AuthService,
     public navCtrl: NavController,
-    private spinner: SpinnerService
+    private spinner: NgxSpinnerService
   ) { }
 
   filterInput(event: any): boolean {
@@ -36,7 +35,7 @@ export class SignupPage {
   }
 
   async signup() {
-    this.spinner.show = true;
+    this.spinner.show();
     try {
       if (!this.name || !this.lastName || !this.email || !this.type || !this.gender)
         throw new Error('Rellene todos los campos.')
@@ -56,10 +55,10 @@ export class SignupPage {
       ToastSuccess.fire('Operación realizada con éxito.')
       this.navCtrl.navigateBack('/home')
     } catch (error: any) {
-      this.spinner.show = false;
+      this.spinner.hide();
       ToastError.fire('Ups! Algo salió mal.', error.message);
 
-    } finally { this.spinner.show = false; }
+    } finally { this.spinner.hide(); }
   }
 
   capitalize = (input: string) => {

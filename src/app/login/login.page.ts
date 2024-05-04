@@ -3,7 +3,7 @@ import { AuthService } from '../services/auth.service';
 import { NavController } from '@ionic/angular';
 import { ToastError, ToastSuccess } from '../utils';
 import { SignupPage } from '../signup/signup.page';
-import { SpinnerService } from '../services/spinner.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
 
 @Component({
@@ -20,11 +20,11 @@ export class LoginPage {
   constructor(
     private auth: AuthService,
     public navCtrl: NavController,
-    private spinner: SpinnerService
+    private spinner: NgxSpinnerService
   ) { }
 
   async login() {
-    this.spinner.show = true;
+    this.spinner.show();
     try {
       await this.auth.signInToFirebase(this.email, this.password)
 
@@ -33,10 +33,10 @@ export class LoginPage {
       ToastSuccess.fire('Operación realizada con éxito.')
       this.navCtrl.navigateBack('/home')
     } catch (error: any) {
-      this.spinner.show = false;
+      this.spinner.hide();
       ToastError.fire('Ups! Algo salió mal.', error.message);
 
-    } finally { this.spinner.show = false; }
+    } finally { this.spinner.hide(); }
   }
 
   quickFill(email: string, pass: string) {
