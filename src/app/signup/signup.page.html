@@ -6,7 +6,6 @@
 
 <div class="container bg-img">
   <ion-card>
-    <img src="../../assets/logo-utn.png" class="ion-padding">
     <ion-card-content>
       <form #signupForm="ngForm">
         <ion-grid>
@@ -38,23 +37,23 @@
           <ion-row>
             <ion-col size="6">
               <ion-item>
-                <ion-input label="Contraseña" [clearOnEdit]="false" labelPlacement="stacked"
-                  helperText="Entre 6 y 20 caracteres." type="password" [(ngModel)]="password" name="password" required>
+                <ion-input label="Contraseña" [clearOnEdit]="false" labelPlacement="stacked" type="password"
+                  helperText="Entre 6 y 20 caracteres." [(ngModel)]="password" name="password" required>
                   <ion-input-password-toggle slot="end"></ion-input-password-toggle>
                 </ion-input>
               </ion-item>
             </ion-col>
             <ion-col size="6">
               <ion-item>
-                <ion-input label="Reinigrese la contraseña" [clearOnEdit]="false" labelPlacement="stacked"
-                  type="password" [(ngModel)]="passCheck" name="passCheck" required>
+                <ion-input label="Reinigrese" [clearOnEdit]="false" labelPlacement="stacked" type="password"
+                  helperText="Coincidir." [(ngModel)]="passCheck" name="passCheck" required>
                   <ion-input-password-toggle slot="end"></ion-input-password-toggle>
                 </ion-input>
               </ion-item>
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col size="auto">
+            <ion-col size="auto" class="gender-col">
               <ion-radio-group class="gender-group" [(ngModel)]="this.gender" name="gender" required>
                 <ion-item>
                   <ion-radio value="femenino" aria-label="femenino">F</ion-radio>
@@ -82,10 +81,10 @@
       </form>
 
       <div class="ion-margin-top">
-        <ion-text color="medium">Ya tiene una cuenta? <a (click)="navCtrl.navigateForward('/login')">Ingresar</a></ion-text>
+        <ion-text color="medium">
+          Ya tiene una cuenta? <a (click)="navCtrl.navigateForward('/login')">Ingresar</a>
+        </ion-text>
       </div>
-
     </ion-card-content>
-    <img src="../../assets/logo-utn.png" class="ion-padding">
   </ion-card>
 </div>
