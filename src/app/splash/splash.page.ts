@@ -12,11 +12,11 @@ export class SplashPage {
     setTimeout(() => {
       const audio = new Audio('../../assets/sounds/whoosh.mp3');
       audio.play();
-    }, 1500);
+    }, 3000);
     setTimeout(() => {
       navCtrl.navigateRoot('/home');
       history.pushState(null, '');
-    }, 2100);
+    }, 3600);
   }
 
 }
