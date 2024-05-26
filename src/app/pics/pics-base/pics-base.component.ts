@@ -5,11 +5,12 @@ import { BuildingPicture, User } from 'src/app/interfaces';
 import { AuthService } from 'src/app/services/auth.service';
 import { DatabaseService } from 'src/app/services/database.service';
 import { StorageService } from 'src/app/services/storage.service';
-import { MySwal, ToastError, ToastSuccess } from 'src/app/utils';
+import { MySwal, ToastError, ToastInfo, ToastSuccess } from 'src/app/utils';
 import { ModalController, NavController } from '@ionic/angular';
 import { ChartComponent } from '../chart/chart.component';
 import { ChartType } from 'chart.js';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Camera, CameraResultType } from '@capacitor/camera';
 
 const datePipe = new DatePipe('en-US', '-0300');
 @Component({
@@ -49,36 +50,61 @@ export class PicsBaseComponent implements OnInit {
   }
   readonly sortDateDesc = (pic1: BuildingPicture, pic2: BuildingPicture) => pic1.date > pic2.date ? -1 : 1
 
-  /* private readonly filterBuildingPictures = (pic: BuildingPicture) => {
-    const picDate = new Date(pic.date);
-    picDate.setHours(0, 0, 0, 0);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-  
-    return picDate === today;
-  } */
-
   private readonly timestampParse = async (pic: BuildingPicture) => {
     pic.date = pic.date instanceof Timestamp ? pic.date.toDate() : pic.date;
     return pic;
   }
 
-  takePic() {
-    (document as any).getElementById("file-upload").click();
+  readonly supportedImageFormats = ['jpg', 'jpeg', 'png'];
+  async takePic() {
+    try {
+      let proceed: boolean = false;
+      do {
+        const image = await Camera.getPhoto({
+          quality: 90,
+          allowEditing: false,
+          resultType: CameraResultType.Uri,
+        });
+        if (!this.supportedImageFormats.includes(image.format))
+          throw new Error('El archivo debe ser de formato .JPG, .JPEG ó .PNG');
+
+        this.spinner.show();
+        await MySwal.fire({
+          text: 'Desea tomar más fotos?',
+          imageUrl: image.webPath,
+          imageWidth: '75vw',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          showConfirmButton: true,
+          confirmButtonText: 'Sí',
+          confirmButtonColor: '#a5dc86',
+          showDenyButton: true,
+          denyButtonText: 'No',
+          denyButtonColor: '#f27474',
+          showCancelButton: true,
+          cancelButtonText: 'Volver a tomar esta foto',
+          cancelButtonColor: '#f0ec0d'
+        }).then(async (res) => {
+          proceed = !res.isDenied;
+          const imgFile = await this.getFileFromUri(image.webPath!, image.format);
+          if (!res.isDismissed) this.uploadPicture(imgFile);
+        });
+      } while (proceed);
+
+    } catch (er: any) {
+      if (er.message === 'User cancelled photos app') ToastInfo.fire('Operación cancelada.');
+      else await MySwal.fire('Algo salió mal.', er.message, 'error');
+      throw er;
+    }
   }
 
-  async setImage(ev: any) {
-    const auxFiles: File[] = [...ev.target.files];
-    if (auxFiles.length < 1) return;
-
-    for (const file of auxFiles) {
-      if (!file.type.startsWith('image')) {
-        await MySwal.fire('Algo salió mal.', `El archivo ${file.name} no es de tipo imagen.`, 'error');
-        return;
-      }
-
-      await this.uploadPicture(file);
-    };
+  private async getFileFromUri(fileUri: string, fileFormat: string): Promise<File> {
+    const response = await fetch(fileUri);
+    const blob = await response.blob();
+    const file = new File([blob], 'photo.jpg', {
+      type: 'image/' + fileFormat,
+    });
+    return file;
   }
 
   async uploadPicture(image: File) {
