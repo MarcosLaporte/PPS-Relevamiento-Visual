@@ -26,7 +26,7 @@ export class LoginPage {
   async login() {
     this.spinner.show();
     try {
-      await this.auth.signInToFirebase(this.email, this.password)
+      await this.auth.signInToFirebase(this.email, this.password);
 
       this.email = "";
       this.password = "";
